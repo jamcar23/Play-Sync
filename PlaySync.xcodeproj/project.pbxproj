@@ -13,6 +13,8 @@
 		EF6BC5F81B549EF9004A8BCE /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = EF6BC5F71B549EF9004A8BCE /* Images.xcassets */; };
 		EF6BC5FB1B549EF9004A8BCE /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = EF6BC5F91B549EF9004A8BCE /* LaunchScreen.xib */; };
 		EF6BC6071B549EF9004A8BCE /* PlaySyncTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF6BC6061B549EF9004A8BCE /* PlaySyncTests.swift */; };
+		EF6BC6111B54A4BF004A8BCE /* MusicQueueViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF6BC6101B54A4BF004A8BCE /* MusicQueueViewController.swift */; };
+		EF6BC6131B54AC93004A8BCE /* Multipeer.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF6BC6121B54AC93004A8BCE /* Multipeer.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -36,6 +38,8 @@
 		EF6BC6001B549EF9004A8BCE /* PlaySyncTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = PlaySyncTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		EF6BC6051B549EF9004A8BCE /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		EF6BC6061B549EF9004A8BCE /* PlaySyncTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlaySyncTests.swift; sourceTree = "<group>"; };
+		EF6BC6101B54A4BF004A8BCE /* MusicQueueViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MusicQueueViewController.swift; sourceTree = "<group>"; };
+		EF6BC6121B54AC93004A8BCE /* Multipeer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Multipeer.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -79,6 +83,8 @@
 			children = (
 				EF6BC5F01B549EF9004A8BCE /* AppDelegate.swift */,
 				EF6BC5F21B549EF9004A8BCE /* ViewController.swift */,
+				EF6BC6101B54A4BF004A8BCE /* MusicQueueViewController.swift */,
+				EF6BC6121B54AC93004A8BCE /* Multipeer.swift */,
 				EF6BC5F41B549EF9004A8BCE /* Main.storyboard */,
 				EF6BC5F71B549EF9004A8BCE /* Images.xcassets */,
 				EF6BC5F91B549EF9004A8BCE /* LaunchScreen.xib */,
@@ -213,6 +219,8 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				EF6BC6111B54A4BF004A8BCE /* MusicQueueViewController.swift in Sources */,
+				EF6BC6131B54AC93004A8BCE /* Multipeer.swift in Sources */,
 				EF6BC5F31B549EF9004A8BCE /* ViewController.swift in Sources */,
 				EF6BC5F11B549EF9004A8BCE /* AppDelegate.swift in Sources */,
 			);
