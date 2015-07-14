@@ -1,0 +1,437 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 46;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		EF6BC5F11B549EF9004A8BCE /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF6BC5F01B549EF9004A8BCE /* AppDelegate.swift */; };
+		EF6BC5F31B549EF9004A8BCE /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF6BC5F21B549EF9004A8BCE /* ViewController.swift */; };
+		EF6BC5F61B549EF9004A8BCE /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = EF6BC5F41B549EF9004A8BCE /* Main.storyboard */; };
+		EF6BC5F81B549EF9004A8BCE /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = EF6BC5F71B549EF9004A8BCE /* Images.xcassets */; };
+		EF6BC5FB1B549EF9004A8BCE /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = EF6BC5F91B549EF9004A8BCE /* LaunchScreen.xib */; };
+		EF6BC6071B549EF9004A8BCE /* PlaySyncTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF6BC6061B549EF9004A8BCE /* PlaySyncTests.swift */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		EF6BC6011B549EF9004A8BCE /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = EF6BC5E31B549EF9004A8BCE /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = EF6BC5EA1B549EF9004A8BCE;
+			remoteInfo = PlaySync;
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXFileReference section */
+		EF6BC5EB1B549EF9004A8BCE /* PlaySync.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = PlaySync.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		EF6BC5EF1B549EF9004A8BCE /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		EF6BC5F01B549EF9004A8BCE /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
+		EF6BC5F21B549EF9004A8BCE /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
+		EF6BC5F51B549EF9004A8BCE /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
+		EF6BC5F71B549EF9004A8BCE /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
+		EF6BC5FA1B549EF9004A8BCE /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/LaunchScreen.xib; sourceTree = "<group>"; };
+		EF6BC6001B549EF9004A8BCE /* PlaySyncTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = PlaySyncTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		EF6BC6051B549EF9004A8BCE /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		EF6BC6061B549EF9004A8BCE /* PlaySyncTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlaySyncTests.swift; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		EF6BC5E81B549EF9004A8BCE /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		EF6BC5FD1B549EF9004A8BCE /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		EF6BC5E21B549EF9004A8BCE = {
+			isa = PBXGroup;
+			children = (
+				EF6BC5ED1B549EF9004A8BCE /* PlaySync */,
+				EF6BC6031B549EF9004A8BCE /* PlaySyncTests */,
+				EF6BC5EC1B549EF9004A8BCE /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		EF6BC5EC1B549EF9004A8BCE /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				EF6BC5EB1B549EF9004A8BCE /* PlaySync.app */,
+				EF6BC6001B549EF9004A8BCE /* PlaySyncTests.xctest */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		EF6BC5ED1B549EF9004A8BCE /* PlaySync */ = {
+			isa = PBXGroup;
+			children = (
+				EF6BC5F01B549EF9004A8BCE /* AppDelegate.swift */,
+				EF6BC5F21B549EF9004A8BCE /* ViewController.swift */,
+				EF6BC5F41B549EF9004A8BCE /* Main.storyboard */,
+				EF6BC5F71B549EF9004A8BCE /* Images.xcassets */,
+				EF6BC5F91B549EF9004A8BCE /* LaunchScreen.xib */,
+				EF6BC5EE1B549EF9004A8BCE /* Supporting Files */,
+			);
+			path = PlaySync;
+			sourceTree = "<group>";
+		};
+		EF6BC5EE1B549EF9004A8BCE /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+				EF6BC5EF1B549EF9004A8BCE /* Info.plist */,
+			);
+			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		EF6BC6031B549EF9004A8BCE /* PlaySyncTests */ = {
+			isa = PBXGroup;
+			children = (
+				EF6BC6061B549EF9004A8BCE /* PlaySyncTests.swift */,
+				EF6BC6041B549EF9004A8BCE /* Supporting Files */,
+			);
+			path = PlaySyncTests;
+			sourceTree = "<group>";
+		};
+		EF6BC6041B549EF9004A8BCE /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+				EF6BC6051B549EF9004A8BCE /* Info.plist */,
+			);
+			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		EF6BC5EA1B549EF9004A8BCE /* PlaySync */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = EF6BC60A1B549EF9004A8BCE /* Build configuration list for PBXNativeTarget "PlaySync" */;
+			buildPhases = (
+				EF6BC5E71B549EF9004A8BCE /* Sources */,
+				EF6BC5E81B549EF9004A8BCE /* Frameworks */,
+				EF6BC5E91B549EF9004A8BCE /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = PlaySync;
+			productName = PlaySync;
+			productReference = EF6BC5EB1B549EF9004A8BCE /* PlaySync.app */;
+			productType = "com.apple.product-type.application";
+		};
+		EF6BC5FF1B549EF9004A8BCE /* PlaySyncTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = EF6BC60D1B549EF9004A8BCE /* Build configuration list for PBXNativeTarget "PlaySyncTests" */;
+			buildPhases = (
+				EF6BC5FC1B549EF9004A8BCE /* Sources */,
+				EF6BC5FD1B549EF9004A8BCE /* Frameworks */,
+				EF6BC5FE1B549EF9004A8BCE /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				EF6BC6021B549EF9004A8BCE /* PBXTargetDependency */,
+			);
+			name = PlaySyncTests;
+			productName = PlaySyncTests;
+			productReference = EF6BC6001B549EF9004A8BCE /* PlaySyncTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		EF6BC5E31B549EF9004A8BCE /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				LastUpgradeCheck = 0640;
+				ORGANIZATIONNAME = "James Carroll";
+				TargetAttributes = {
+					EF6BC5EA1B549EF9004A8BCE = {
+						CreatedOnToolsVersion = 6.4;
+						DevelopmentTeam = 5D7558UCX8;
+					};
+					EF6BC5FF1B549EF9004A8BCE = {
+						CreatedOnToolsVersion = 6.4;
+						TestTargetID = EF6BC5EA1B549EF9004A8BCE;
+					};
+				};
+			};
+			buildConfigurationList = EF6BC5E61B549EF9004A8BCE /* Build configuration list for PBXProject "PlaySync" */;
+			compatibilityVersion = "Xcode 3.2";
+			developmentRegion = English;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+				Base,
+			);
+			mainGroup = EF6BC5E21B549EF9004A8BCE;
+			productRefGroup = EF6BC5EC1B549EF9004A8BCE /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				EF6BC5EA1B549EF9004A8BCE /* PlaySync */,
+				EF6BC5FF1B549EF9004A8BCE /* PlaySyncTests */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		EF6BC5E91B549EF9004A8BCE /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				EF6BC5F61B549EF9004A8BCE /* Main.storyboard in Resources */,
+				EF6BC5FB1B549EF9004A8BCE /* LaunchScreen.xib in Resources */,
+				EF6BC5F81B549EF9004A8BCE /* Images.xcassets in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		EF6BC5FE1B549EF9004A8BCE /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		EF6BC5E71B549EF9004A8BCE /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				EF6BC5F31B549EF9004A8BCE /* ViewController.swift in Sources */,
+				EF6BC5F11B549EF9004A8BCE /* AppDelegate.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		EF6BC5FC1B549EF9004A8BCE /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				EF6BC6071B549EF9004A8BCE /* PlaySyncTests.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		EF6BC6021B549EF9004A8BCE /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = EF6BC5EA1B549EF9004A8BCE /* PlaySync */;
+			targetProxy = EF6BC6011B549EF9004A8BCE /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
+/* Begin PBXVariantGroup section */
+		EF6BC5F41B549EF9004A8BCE /* Main.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				EF6BC5F51B549EF9004A8BCE /* Base */,
+			);
+			name = Main.storyboard;
+			sourceTree = "<group>";
+		};
+		EF6BC5F91B549EF9004A8BCE /* LaunchScreen.xib */ = {
+			isa = PBXVariantGroup;
+			children = (
+				EF6BC5FA1B549EF9004A8BCE /* Base */,
+			);
+			name = LaunchScreen.xib;
+			sourceTree = "<group>";
+		};
+/* End PBXVariantGroup section */
+
+/* Begin XCBuildConfiguration section */
+		EF6BC6081B549EF9004A8BCE /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.4;
+				MTL_ENABLE_DEBUG_INFO = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = iphoneos;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		EF6BC6091B549EF9004A8BCE /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.4;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				SDKROOT = iphoneos;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
+		EF6BC60B1B549EF9004A8BCE /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				INFOPLIST_FILE = PlaySync/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE = "";
+			};
+			name = Debug;
+		};
+		EF6BC60C1B549EF9004A8BCE /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				INFOPLIST_FILE = PlaySync/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE = "";
+			};
+			name = Release;
+		};
+		EF6BC60E1B549EF9004A8BCE /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(SDKROOT)/Developer/Library/Frameworks",
+					"$(inherited)",
+				);
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				INFOPLIST_FILE = PlaySyncTests/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/PlaySync.app/PlaySync";
+			};
+			name = Debug;
+		};
+		EF6BC60F1B549EF9004A8BCE /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(SDKROOT)/Developer/Library/Frameworks",
+					"$(inherited)",
+				);
+				INFOPLIST_FILE = PlaySyncTests/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/PlaySync.app/PlaySync";
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		EF6BC5E61B549EF9004A8BCE /* Build configuration list for PBXProject "PlaySync" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				EF6BC6081B549EF9004A8BCE /* Debug */,
+				EF6BC6091B549EF9004A8BCE /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		EF6BC60A1B549EF9004A8BCE /* Build configuration list for PBXNativeTarget "PlaySync" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				EF6BC60B1B549EF9004A8BCE /* Debug */,
+				EF6BC60C1B549EF9004A8BCE /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		EF6BC60D1B549EF9004A8BCE /* Build configuration list for PBXNativeTarget "PlaySyncTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				EF6BC60E1B549EF9004A8BCE /* Debug */,
+				EF6BC60F1B549EF9004A8BCE /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = EF6BC5E31B549EF9004A8BCE /* Project object */;
+}
