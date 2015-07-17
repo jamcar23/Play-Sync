@@ -3,6 +3,7 @@
     <dependencies>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="7703"/>
         <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
+        <capability name="Constraints with non-1.0 multipliers" minToolsVersion="5.1"/>
     </dependencies>
     <scenes>
         <!--View Controller-->
@@ -72,7 +73,27 @@
                     <view key="view" contentMode="scaleToFill" id="r3c-jy-WeL">
                         <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="oSx-dy-sm2">
+                                <rect key="frame" x="0.0" y="540" width="600" height="60"/>
+                                <color key="backgroundColor" white="0.75" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+                            </view>
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" translatesAutoresizingMaskIntoConstraints="NO" id="YxW-j1-629">
+                                <rect key="frame" x="0.0" y="64" width="600" height="476"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                            </tableView>
+                        </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstItem="YxW-j1-629" firstAttribute="top" secondItem="3mz-FQ-Puu" secondAttribute="bottom" id="4bS-b0-o9M"/>
+                            <constraint firstAttribute="trailing" secondItem="YxW-j1-629" secondAttribute="trailing" id="4ix-cs-YBD"/>
+                            <constraint firstAttribute="trailing" secondItem="oSx-dy-sm2" secondAttribute="trailing" id="EMj-eB-bSG"/>
+                            <constraint firstItem="oSx-dy-sm2" firstAttribute="top" secondItem="YxW-j1-629" secondAttribute="bottom" id="TJB-CP-0re"/>
+                            <constraint firstItem="oSx-dy-sm2" firstAttribute="height" secondItem="r3c-jy-WeL" secondAttribute="height" multiplier="0.1" id="evz-T7-9Ty"/>
+                            <constraint firstItem="YxW-j1-629" firstAttribute="leading" secondItem="r3c-jy-WeL" secondAttribute="leading" id="pkS-Js-x4u"/>
+                            <constraint firstItem="EnU-wC-11Z" firstAttribute="top" secondItem="oSx-dy-sm2" secondAttribute="bottom" id="soE-ZF-f4c"/>
+                            <constraint firstItem="oSx-dy-sm2" firstAttribute="leading" secondItem="r3c-jy-WeL" secondAttribute="leading" id="v22-cB-JTH"/>
+                        </constraints>
                     </view>
                     <navigationItem key="navigationItem" id="Jos-Dp-kAQ">
                         <barButtonItem key="rightBarButtonItem" title="Add" id="cBc-1V-dYE">

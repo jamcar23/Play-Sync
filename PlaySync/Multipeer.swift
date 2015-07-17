@@ -14,29 +14,54 @@ class Multipeer {
   
   var playbackDevice: Bool!
   var peerId: MCPeerID!
+  var playbackPeer: MCPeerID!
   var session: MCSession!
   var browser: MCBrowserViewController!
   var advertiser: MCAdvertiserAssistant!
-  var delegate: MusicQueueViewController!
+  var delegate: AnyObject!
   
   init() {
     peerId = MCPeerID(displayName: UIDevice.currentDevice().name)
     session = MCSession(peer: peerId)
+    advertiser = MCAdvertiserAssistant(serviceType: serviceType, discoveryInfo: nil, session: session)
+  }
+  
+  init(delegate: AnyObject) {
+    self.delegate = delegate
     
+    if let del = delegate as? MusicQueueViewController {
+      peerId = MCPeerID(displayName: UIDevice.currentDevice().name)
+      session = MCSession(peer: peerId)
+      session.delegate = del
+      advertiser = MCAdvertiserAssistant(serviceType: serviceType, discoveryInfo: nil, session: session)
+    }
   }
   
   func openViewController() {
-    session.delegate = delegate
-    
-    if playbackDevice == true {
-      advertiser = MCAdvertiserAssistant(serviceType: serviceType, discoveryInfo: nil, session: session)
-      advertiser.start()
-    } else {
-      browser = MCBrowserViewController(serviceType: serviceType, session: session)
-      browser.delegate = delegate
-      
-      delegate.presentViewController(browser, animated: true, completion: nil)
+    if let del = delegate as? MusicQueueViewController {
+      if playbackDevice == true {
+        advertiser.start()
+      } else {
+        browser = MCBrowserViewController(serviceType: serviceType, session: session)
+        browser.delegate = del
+        
+        del.presentViewController(browser, animated: true, completion: nil)
+      }
     }
+    
+  }
+  
+  func writeData(data: NSData) {
+    var err: NSError?
+    
+    if data.length > 0 {
+      session.sendData(data, toPeers: session.connectedPeers, withMode: .Reliable, error: &err)
+    }
+  }
+  
+  func writeMessage(message: String) {
+    let data = message.dataUsingEncoding(NSUTF8StringEncoding, allowLossyConversion: false) ?? NSData()
+    writeData(data)
   }
   
   

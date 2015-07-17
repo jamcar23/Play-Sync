@@ -15,6 +15,8 @@
 		EF6BC6071B549EF9004A8BCE /* PlaySyncTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF6BC6061B549EF9004A8BCE /* PlaySyncTests.swift */; };
 		EF6BC6111B54A4BF004A8BCE /* MusicQueueViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF6BC6101B54A4BF004A8BCE /* MusicQueueViewController.swift */; };
 		EF6BC6131B54AC93004A8BCE /* Multipeer.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF6BC6121B54AC93004A8BCE /* Multipeer.swift */; };
+		EF7B392D1B58976B002F9209 /* Artwork.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF7B392C1B58976B002F9209 /* Artwork.swift */; };
+		EFDAB1DA1B5706DC0025B33A /* Song.swift in Sources */ = {isa = PBXBuildFile; fileRef = EFDAB1D91B5706DC0025B33A /* Song.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -40,6 +42,8 @@
 		EF6BC6061B549EF9004A8BCE /* PlaySyncTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlaySyncTests.swift; sourceTree = "<group>"; };
 		EF6BC6101B54A4BF004A8BCE /* MusicQueueViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MusicQueueViewController.swift; sourceTree = "<group>"; };
 		EF6BC6121B54AC93004A8BCE /* Multipeer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Multipeer.swift; sourceTree = "<group>"; };
+		EF7B392C1B58976B002F9209 /* Artwork.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Artwork.swift; sourceTree = "<group>"; };
+		EFDAB1D91B5706DC0025B33A /* Song.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Song.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -84,6 +88,8 @@
 				EF6BC5F01B549EF9004A8BCE /* AppDelegate.swift */,
 				EF6BC5F21B549EF9004A8BCE /* ViewController.swift */,
 				EF6BC6101B54A4BF004A8BCE /* MusicQueueViewController.swift */,
+				EFDAB1D91B5706DC0025B33A /* Song.swift */,
+				EF7B392C1B58976B002F9209 /* Artwork.swift */,
 				EF6BC6121B54AC93004A8BCE /* Multipeer.swift */,
 				EF6BC5F41B549EF9004A8BCE /* Main.storyboard */,
 				EF6BC5F71B549EF9004A8BCE /* Images.xcassets */,
@@ -167,7 +173,7 @@
 				TargetAttributes = {
 					EF6BC5EA1B549EF9004A8BCE = {
 						CreatedOnToolsVersion = 6.4;
-						DevelopmentTeam = 5D7558UCX8;
+						DevelopmentTeam = 423XER8HMY;
 					};
 					EF6BC5FF1B549EF9004A8BCE = {
 						CreatedOnToolsVersion = 6.4;
@@ -223,6 +229,8 @@
 				EF6BC6131B54AC93004A8BCE /* Multipeer.swift in Sources */,
 				EF6BC5F31B549EF9004A8BCE /* ViewController.swift in Sources */,
 				EF6BC5F11B549EF9004A8BCE /* AppDelegate.swift in Sources */,
+				EF7B392D1B58976B002F9209 /* Artwork.swift in Sources */,
+				EFDAB1DA1B5706DC0025B33A /* Song.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
