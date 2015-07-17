@@ -86,6 +86,12 @@ class MusicQueueViewController: UIViewController, MCBrowserViewControllerDelegat
       if playbackDevice == true {
         multi.writeMessage("\(multi.peerId.displayName)::isPlaybackDevice")
       }
+      
+      if songs.count > 0 {
+        for s in songs {
+          multi.writeData(s.selfToNSData())
+        }
+      }
     }
   }
   
@@ -110,6 +116,9 @@ class MusicQueueViewController: UIViewController, MCBrowserViewControllerDelegat
       
       if let songObj = songObj {
         songs.append(songObj)
+        dispatch_async(dispatch_get_main_queue(), {
+          self.tableView.reloadData()
+        })
       }
       
     }
