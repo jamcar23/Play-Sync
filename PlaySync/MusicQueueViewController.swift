@@ -11,7 +11,11 @@ import MultipeerConnectivity
 import MediaPlayer
 import AVFoundation
 
-class MusicQueueViewController: UIViewController, MCBrowserViewControllerDelegate, MCSessionDelegate, MPMediaPickerControllerDelegate, NSStreamDelegate {
+let songCellId = "songCell"
+
+class MusicQueueViewController: UIViewController, MCBrowserViewControllerDelegate, MCSessionDelegate, MPMediaPickerControllerDelegate, NSStreamDelegate, UITableViewDataSource, UITableViewDelegate {
+  
+  @IBOutlet weak var tableView: UITableView!
   
   var playbackDevice: Bool!
   var songs = [Song]()
@@ -25,11 +29,41 @@ class MusicQueueViewController: UIViewController, MCBrowserViewControllerDelegat
     multi = Multipeer(delegate: self)
     multi.playbackDevice = self.playbackDevice
     multi.openViewController()
+    
+    tableView.tableFooterView = UIView(frame: CGRectZero)
+    tableView.backgroundColor = UIColor.clearColor()
   }
   
   override func didReceiveMemoryWarning() {
     super.didReceiveMemoryWarning()
     // Dispose of any resources that can be recreated.
+  }
+  
+  // MARK: - UITableViewDataSource
+  
+  func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+    return songs.count
+  }
+  
+  func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
+    var c = tableView.dequeueReusableCellWithIdentifier(songCellId) as! SongTableViewCell
+    let song = songs[indexPath.row]
+    c.albumImg?.image = song.artwork
+    c.songLbl.text = song.title
+    c.artistLbl.text = song.artist
+    c.durationLbl.text = song.secToMin()
+    
+    return c
+  }
+  
+  // MARK: - UITableViewDelegate
+  
+  func tableView(tableView: UITableView, estimatedHeightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
+    return 55.0
+  }
+  
+  func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
+    return 55.0
   }
   
   // MARK: - MCBrowserViewControllerDelegate
@@ -64,8 +98,11 @@ class MusicQueueViewController: UIViewController, MCBrowserViewControllerDelegat
       if message != "" {
         let splitString = message.componentsSeparatedByString("::")
         
-        if splitString[1] == "isPlaybackDevice" {
+        switch splitString[1] {
+        case "isPlaybackDevice":
           multi.playbackPeer = MCPeerID(displayName: splitString[0])
+        default:
+          break
         }
       }
     } else {
@@ -115,14 +152,15 @@ class MusicQueueViewController: UIViewController, MCBrowserViewControllerDelegat
     
     for s in (mediaItemCollection.items as! [MPMediaItem]) {
       songObj = Song(artist: s.artist, album: s.albumTitle, title: s.title,
-        artwork: s.artwork.imageWithSize(CGSize(width: 128, height: 128)), url: s.assetURL)
+        artwork: s.artwork.imageWithSize(CGSize(width: 128, height: 128)),
+        url: s.assetURL, duration: s.playbackDuration)
       songs.append(songObj)
       multi.writeData(songObj.selfToNSData())
       
       asset = AVURLAsset(URL: songObj.url, options: nil)
       assestReader = AVAssetReader(asset: asset, error: &err)
     }
-    
+    tableView.reloadData()
     dismissViewControllerAnimated(true, completion: nil)
   }
   
@@ -140,7 +178,7 @@ class MusicQueueViewController: UIViewController, MCBrowserViewControllerDelegat
   }
   
   // MARK: - IBActions
-
+  
   @IBAction func addMusicBtnPressed(sender: AnyObject) {
     let mediaPicker = MPMediaPickerController(mediaTypes: .Music)
     mediaPicker.delegate = self
