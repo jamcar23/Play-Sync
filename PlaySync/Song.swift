@@ -16,6 +16,7 @@ class Song: NSObject, NSCoding {
   let artwork: UIImage!
   let url: NSURL!
   let duration: NSTimeInterval!
+  let persistentId: String!
   
   override init() {
     self.artist = ""
@@ -24,20 +25,22 @@ class Song: NSObject, NSCoding {
     self.artwork = UIImage()
     self.url = NSURL()
     self.duration = NSTimeInterval()
+    self.persistentId = ""
     
     super.init()
   }
   
   init(artist: String, album: String, title: String, artwork: UIImage,
-    url: NSURL, duration: NSTimeInterval) {
-    self.artist = artist
-    self.album = album
-    self.title = title
-    self.artwork = artwork
-    self.url = url
-    self.duration = duration
+    url: NSURL, duration: NSTimeInterval, persistentId: String) {
+      self.artist = artist
+      self.album = album
+      self.title = title
+      self.artwork = artwork
+      self.url = url
+      self.duration = duration
+      self.persistentId = persistentId
       
-    super.init()
+      super.init()
   }
   
   required init(coder aDecoder: NSCoder) {
@@ -47,6 +50,7 @@ class Song: NSObject, NSCoding {
     self.artwork = aDecoder.decodeObjectForKey("artwork") as! UIImage
     self.url = aDecoder.decodeObjectForKey("url") as! NSURL
     self.duration = aDecoder.decodeObjectForKey("duration") as! NSTimeInterval
+    self.persistentId = aDecoder.decodeObjectForKey("persistantId") as! String
   }
   
   func encodeWithCoder(aCoder: NSCoder) {
@@ -56,10 +60,28 @@ class Song: NSObject, NSCoding {
     aCoder.encodeObject(artwork, forKey: "artwork")
     aCoder.encodeObject(url, forKey: "url")
     aCoder.encodeObject(duration, forKey: "duration")
+    aCoder.encodeObject(persistentId, forKey: "persistantId")
   }
   
   func selfToNSData() -> NSData {
     return NSKeyedArchiver.archivedDataWithRootObject(self)
+  }
+  
+  func selfToString() -> String {
+    return selfToNSData().base64EncodedStringWithOptions(.Encoding64CharacterLineLength) ?? ""
+  }
+  
+  func selfToMPMediaItem() -> MPMediaItem {
+    let predicate = MPMediaPropertyPredicate(value: self.persistentId, forProperty: MPMediaItemPropertyPersistentID)
+    let query = MPMediaQuery()
+    var song = MPMediaItem()
+    query.addFilterPredicate(predicate)
+    
+    if query.items.count > 0 {
+      song = query.items[0] as! MPMediaItem
+    }
+    
+    return song
   }
   
   func secToMin() -> String {
@@ -75,5 +97,15 @@ class Song: NSObject, NSCoding {
     }
     
     return "\(Int(min)):\(secString)"
+  }
+  
+  class func returnArrayOfMPMediaItem(songs: [Song]) -> [MPMediaItem] {
+    var mediaItems = [MPMediaItem]()
+    
+    for s in songs {
+      mediaItems.append(s.selfToMPMediaItem())
+    }
+    
+    return mediaItems
   }
 }

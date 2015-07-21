@@ -64,5 +64,13 @@ class Multipeer {
     writeData(data)
   }
   
+  func dataToSong(data: NSData) -> Song? {
+    if data.length > 0 {
+      return NSKeyedUnarchiver.unarchiveObjectWithData(data) as? Song
+    } else {
+      return nil
+    }
+  }
+  
   
 }
