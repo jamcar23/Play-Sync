@@ -10,10 +10,11 @@ import UIKit
 import MultipeerConnectivity
 import MediaPlayer
 import AVFoundation
+import AudioToolbox
 
 let songCellId = "songCell"
 
-class MusicQueueViewController: UIViewController, MCBrowserViewControllerDelegate, MCSessionDelegate, MPMediaPickerControllerDelegate, NSStreamDelegate, UITableViewDataSource, UITableViewDelegate {
+class MusicQueueViewController: UIViewController, MCBrowserViewControllerDelegate, MCSessionDelegate, MPMediaPickerControllerDelegate, UITableViewDataSource, UITableViewDelegate {
   
   @IBOutlet weak var tableView: UITableView!
   @IBOutlet weak var currentlyPlaying: CurrentSong!
@@ -24,6 +25,8 @@ class MusicQueueViewController: UIViewController, MCBrowserViewControllerDelegat
   
   var multi: Multipeer!
   var player: MusicPlayer!
+  var notiCenter: NSNotificationCenter!
+  var currentPlayingVC: CurrentlyPlayingViewController?
   
   override func viewDidLoad() {
     super.viewDidLoad()
@@ -36,11 +39,24 @@ class MusicQueueViewController: UIViewController, MCBrowserViewControllerDelegat
     tableView.tableFooterView = UIView(frame: CGRectZero)
     tableView.backgroundColor = UIColor.clearColor()
     
+    currentSong = nil
+    
     if currentSong == nil {
       currentlyPlaying.hidden = true
     }
     
+    currentlyPlaying.delegate = self
+    
     player = MusicPlayer(isPlaybackDevice: playbackDevice)
+    
+    if playbackDevice == true {
+      notiCenter = NSNotificationCenter.defaultCenter()
+      notiCenter.addObserver(self, selector: "handleNowPlayingItemChanged:", name: MPMusicPlayerControllerNowPlayingItemDidChangeNotification, object: player.playerController)
+      notiCenter.addObserver(self, selector: "handlePlaybackStateChange:", name: MPMusicPlayerControllerPlaybackStateDidChangeNotification, object: player.playerController)
+      
+      player.playerController!.playbackState == .Stopped
+      player.playerController!.beginGeneratingPlaybackNotifications()
+    }
   }
   
   override func didReceiveMemoryWarning() {
@@ -48,16 +64,60 @@ class MusicQueueViewController: UIViewController, MCBrowserViewControllerDelegat
     // Dispose of any resources that can be recreated.
   }
   
-  // MARK: - class methods 
+  // MARK: - class methods
   
   func updateCurrentlyPlaying() {
     if let song = currentSong {
       currentlyPlaying.albumImg.layer.backgroundColor = UIColor.blackColor().CGColor
       currentlyPlaying.albumImg.image = song.artwork
-      currentlyPlaying.controlBtn.image = song.artwork
       currentlyPlaying.songLbl.text = song.title
       currentlyPlaying.artistLbl.text = song.artist
       currentlyPlaying.hidden = false
+      
+      
+      if playbackDevice == true {
+        if song.sender == multi.peerId.displayName {
+          player.playerController?.nowPlayingItem = song.selfToMPMediaItem()
+          player.play()
+        } else {
+          multi.writeMessageToPeer(Controls.isNeededSong(song.selfToString()), peerName: song.sender)
+        }
+      }
+      
+      if let cpVC = currentPlayingVC {
+        if self.currentSong! !== cpVC.currentSong {
+          cpVC.currentSong = self.currentSong!
+          cpVC.updateAllViews()
+        }
+        
+      }
+    }
+  }
+  
+  func handleNowPlayingItemChanged(notification: NSNotification) {
+    if let nowPlaying = player.playerController?.nowPlayingItem {
+      currentSong = Song.returnSongObject(song: nowPlaying)
+      updateCurrentlyPlaying()
+      multi.writeMessage(Controls.isCurrentSong(currentSong!.selfToString()))
+    }
+  }
+  
+  func handlePlaybackStateChange(notification: NSNotification) {
+    handleControlButton()
+  }
+  
+  func handleControlButton() {
+    if player.playBackState() == .Stopped || player.playBackState() == .Paused {
+      currentlyPlaying.setControlBtnIcon(true)
+      multi.writeMessage(Controls.isToBePaused())
+    } else {
+      currentlyPlaying.setControlBtnIcon(false)
+      multi.writeMessage(Controls.isToBePlayed())
+    }
+    
+    if let cpVC = currentPlayingVC {
+      cpVC.playPauseImg = currentlyPlaying.controlBtn.image
+      cpVC.updateAllViews()
     }
   }
   
@@ -93,9 +153,7 @@ class MusicQueueViewController: UIViewController, MCBrowserViewControllerDelegat
     updateCurrentlyPlaying()
     multi.writeMessage(Controls.isCurrentSong(currentSong?.selfToString() ?? ""))
     
-    if playbackDevice == true {
-      player.playerController?.nowPlayingItem = currentSong?.selfToMPMediaItem()
-    }
+    
   }
   
   // MARK: - MCBrowserViewControllerDelegate
@@ -125,8 +183,8 @@ class MusicQueueViewController: UIViewController, MCBrowserViewControllerDelegat
         }
       }
       
-      if currentSong != nil {
-        multi.writeMessage(Controls.isCurrentSong(currentSong?.selfToString() ?? ""))
+      if let song = currentSong {
+        multi.writeMessage(Controls.isCurrentSong(song.selfToString() ?? ""))
       }
     }
   }
@@ -141,13 +199,48 @@ class MusicQueueViewController: UIViewController, MCBrowserViewControllerDelegat
         
         switch splitString[1] {
         case Controls.playbackDevice:
-          multi.playbackPeer = MCPeerID(displayName: splitString[0])
+          multi.setSelfPlaybackPeer(splitString[0])
         case Controls.currentSong:
           let d = NSData(base64EncodedString: splitString[0], options: .IgnoreUnknownCharacters)
           currentSong = multi.dataToSong(d ?? NSData())
           dispatch_async(dispatch_get_main_queue(), {
             self.updateCurrentlyPlaying()
           })
+        case Controls.paused:
+          dispatch_async(dispatch_get_main_queue(), {
+            self.currentlyPlaying.setControlBtnIcon(true)
+            self.currentPlayingVC?.setControlBtnIcon(true)
+            
+            if self.playbackDevice == true {
+              self.player.pause()
+            }
+          })
+        case Controls.played:
+          dispatch_async(dispatch_get_main_queue(), {
+            self.currentlyPlaying.setControlBtnIcon(false)
+            self.currentPlayingVC?.setControlBtnIcon(false)
+            
+            if self.playbackDevice == true {
+              self.player.play()
+            }
+          })
+        case Controls.neededSong:
+          dispatch_async(dispatch_get_main_queue(), {
+            self.multi.startStreamWithPlaybackPeer()
+            self.multi.writeSongToStream(self.currentSong!)
+          })
+        case Controls.skipForward:
+          if playbackDevice == true {
+            dispatch_async(dispatch_get_main_queue(), {
+              self.player.toNextItem()
+            })
+          }
+        case Controls.skipPrevious:
+          if playbackDevice == true {
+            dispatch_async(dispatch_get_main_queue(), {
+              self.player.toPreviousItem()
+            })
+          }
         default:
           break
         }
@@ -167,7 +260,6 @@ class MusicQueueViewController: UIViewController, MCBrowserViewControllerDelegat
   // Received a byte stream from remote peer
   func session(session: MCSession!, didReceiveStream stream: NSInputStream!, withName streamName: String!, fromPeer peerID: MCPeerID!) {
     if playbackDevice == true {
-      stream.delegate = self
       stream.scheduleInRunLoop(NSRunLoop.currentRunLoop(), forMode: NSDefaultRunLoopMode)
       stream.open()
     }
@@ -193,40 +285,40 @@ class MusicQueueViewController: UIViewController, MCBrowserViewControllerDelegat
   }
   
   func mediaPicker(mediaPicker: MPMediaPickerController!, didPickMediaItems mediaItemCollection: MPMediaItemCollection!) {
-    var asset: AVURLAsset!
-    var assestReader: AVAssetReader!
-    var err: NSError?
+    //    var asset: AVURLAsset!
+    //    var assestReader: AVAssetReader!
+    //    var err: NSError?
     var songObj: Song!
     
     for s in (mediaItemCollection.items as! [MPMediaItem]) {
-      songObj = Song(artist: s.artist, album: s.albumTitle, title: s.title,
-        artwork: s.artwork.imageWithSize(CGSize(width: 128, height: 128)),
-        url: s.assetURL, duration: s.playbackDuration, persistentId: s.persistentID.description)
+      songObj = Song.returnSongObject(song: s)
       songs.append(songObj)
       multi.writeData(songObj.selfToNSData())
       
-      asset = AVURLAsset(URL: songObj.url, options: nil)
-      assestReader = AVAssetReader(asset: asset, error: &err)
+      //      asset = AVURLAsset(URL: songObj.url, options: nil)
+      //      assestReader = AVAssetReader(asset: asset, error: &err)
     }
     tableView.reloadData()
     
     player.setQueue(MPMediaItemCollection(items: Song.returnArrayOfMPMediaItem(songs)))
-    player.play()
+    currentSong = songs[0]
+    multi.writeMessage(Controls.isCurrentSong(currentSong?.selfToString() ?? ""))
+    handleControlButton()
+    updateCurrentlyPlaying()
     
     dismissViewControllerAnimated(true, completion: nil)
   }
   
-  // MARK: - NSStreamDelegate
+  // MARK: - Navigation
   
-  func stream(aStream: NSStream, handleEvent eventCode: NSStreamEvent) {
-    if aStream is NSInputStream {
-      switch eventCode {
-      case NSStreamEvent.HasBytesAvailable:
-        break
-      default:
-        break
-      }
-    }
+  override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
+    currentPlayingVC = segue.destinationViewController as? CurrentlyPlayingViewController
+    
+    currentPlayingVC?.delegate = self
+    currentPlayingVC?.currentSong = self.currentSong!
+    currentPlayingVC?.playPauseImg = currentlyPlaying.controlBtn.image
+    currentPlayingVC?.isPlaying = currentlyPlaying.isPlaying
+
   }
   
   // MARK: - IBActions

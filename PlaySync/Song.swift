@@ -8,6 +8,9 @@
 
 import UIKit
 import MediaPlayer
+import AVFoundation
+
+let deviceName = UIDevice.currentDevice().name
 
 class Song: NSObject, NSCoding {
   let artist: String!
@@ -17,6 +20,9 @@ class Song: NSObject, NSCoding {
   let url: NSURL!
   let duration: NSTimeInterval!
   let persistentId: String!
+  let sender: String!
+  
+  // MARK: - init
   
   override init() {
     self.artist = ""
@@ -26,6 +32,7 @@ class Song: NSObject, NSCoding {
     self.url = NSURL()
     self.duration = NSTimeInterval()
     self.persistentId = ""
+    self.sender = ""
     
     super.init()
   }
@@ -39,9 +46,12 @@ class Song: NSObject, NSCoding {
       self.url = url
       self.duration = duration
       self.persistentId = persistentId
+      self.sender = deviceName
       
       super.init()
   }
+  
+  // MARK: - NSCoding
   
   required init(coder aDecoder: NSCoder) {
     self.artist = aDecoder.decodeObjectForKey("artist") as! String
@@ -51,6 +61,7 @@ class Song: NSObject, NSCoding {
     self.url = aDecoder.decodeObjectForKey("url") as! NSURL
     self.duration = aDecoder.decodeObjectForKey("duration") as! NSTimeInterval
     self.persistentId = aDecoder.decodeObjectForKey("persistantId") as! String
+    self.sender = aDecoder.decodeObjectForKey("sender") as! String
   }
   
   func encodeWithCoder(aCoder: NSCoder) {
@@ -61,7 +72,10 @@ class Song: NSObject, NSCoding {
     aCoder.encodeObject(url, forKey: "url")
     aCoder.encodeObject(duration, forKey: "duration")
     aCoder.encodeObject(persistentId, forKey: "persistantId")
+    aCoder.encodeObject(sender, forKey: "sender")
   }
+  
+  // MARK: - Instance methods
   
   func selfToNSData() -> NSData {
     return NSKeyedArchiver.archivedDataWithRootObject(self)
@@ -84,6 +98,19 @@ class Song: NSObject, NSCoding {
     return song
   }
   
+  func selfToAssetOutput() -> AVAssetReaderTrackOutput {
+    var err: NSError?
+    let asset = AVURLAsset(URL: self.url, options: nil)
+    let reader = AVAssetReader(asset: asset, error: &err)
+    let output = AVAssetReaderTrackOutput(track: asset.tracks[0] as! AVAssetTrack, outputSettings: nil)
+    
+    reader.addOutput(output)
+    reader.startReading()
+    
+    return output
+  }
+  
+  // Returns human readable String of NSTimeInterval
   func secToMin() -> String {
     let t = self.duration
     var min = floor(t / 60)
@@ -99,6 +126,8 @@ class Song: NSObject, NSCoding {
     return "\(Int(min)):\(secString)"
   }
   
+  // MARK: - Class methods
+  
   class func returnArrayOfMPMediaItem(songs: [Song]) -> [MPMediaItem] {
     var mediaItems = [MPMediaItem]()
     
@@ -107,5 +136,11 @@ class Song: NSObject, NSCoding {
     }
     
     return mediaItems
+  }
+  
+  class func returnSongObject(song s: MPMediaItem) -> Song {
+    return Song(artist: s.artist, album: s.albumTitle, title: s.title,
+      artwork: s.artwork.imageWithSize(CGSize(width: 128, height: 128)),
+      url: s.assetURL, duration: s.playbackDuration, persistentId: s.persistentID.description)
   }
 }

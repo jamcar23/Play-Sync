@@ -8,8 +8,9 @@
 
 import UIKit
 import MultipeerConnectivity
+import CoreMedia
 
-class Multipeer {
+class Multipeer: NSObject, NSStreamDelegate {
   let serviceType = "7c24dec7ad14dca"
   
   var playbackDevice: Bool!
@@ -19,22 +20,33 @@ class Multipeer {
   var browser: MCBrowserViewController!
   var advertiser: MCAdvertiserAssistant!
   var delegate: AnyObject!
+  var outputStream: NSOutputStream?
   
-  init() {
-    peerId = MCPeerID(displayName: UIDevice.currentDevice().name)
+  struct audioData {
+    var fileStream = AudioFileStreamID()
+    var queue = AudioQueueRef()
+//    var queueBuffer =  AudioQueueBuffer(
+  }
+  
+  override init() {
+    peerId = MCPeerID(displayName: deviceName)
     session = MCSession(peer: peerId)
     advertiser = MCAdvertiserAssistant(serviceType: serviceType, discoveryInfo: nil, session: session)
+    
+    super.init()
   }
   
   init(delegate: AnyObject) {
     self.delegate = delegate
     
     if let del = delegate as? MusicQueueViewController {
-      peerId = MCPeerID(displayName: UIDevice.currentDevice().name)
+      peerId = MCPeerID(displayName: deviceName)
       session = MCSession(peer: peerId)
       session.delegate = del
       advertiser = MCAdvertiserAssistant(serviceType: serviceType, discoveryInfo: nil, session: session)
     }
+    
+    super.init()
   }
   
   func openViewController() {
@@ -64,11 +76,114 @@ class Multipeer {
     writeData(data)
   }
   
+  func writeMessageToPeer(message: String, peerName: String) {
+    let data = message.dataUsingEncoding(NSUTF8StringEncoding, allowLossyConversion: false) ?? NSData()
+    var err: NSError?
+    
+    session.sendData(data, toPeers: [getPeer(peerName)], withMode: .Reliable, error: &err)
+  }
+  
+  func startStreamWithPlaybackPeer() {
+    var err: NSError?
+    if outputStream == nil && (delegate as? MusicQueueViewController)?.playbackDevice == true {
+      outputStream = session.startStreamWithName(Controls.neededSong, toPeer: playbackPeer, error: &err)
+      outputStream?.delegate = self 
+    }
+    
+    if let e = err {
+      println("startStream error: \(e)")
+    }
+  }
+  
+  func writeSongToStream(song: Song) {
+    let sampleBuffer = song.selfToAssetOutput().copyNextSampleBuffer()
+    var blockBuffer: Unmanaged<CMBlockBuffer>? = nil
+    var bufferList = AudioBufferList(mNumberBuffers: 1, mBuffers: AudioBuffer(mNumberChannels: 0, mDataByteSize: 0, mData: nil))
+    
+    CMSampleBufferGetAudioBufferListWithRetainedBlockBuffer(sampleBuffer, nil, &bufferList, sizeofValue(bufferList), nil, nil, UInt32(kCMSampleBufferFlag_AudioBufferList_Assure16ByteAlignment), &blockBuffer)
+    
+    let audioBuffers = UnsafeBufferPointer<AudioBuffer>(start: &bufferList.mBuffers, count: Int(bufferList.mNumberBuffers))
+    
+    if let stream = outputStream {
+      for buffer in audioBuffers {
+        stream.write(UnsafeMutablePointer<UInt8>(buffer.mData), maxLength: Int(buffer.mDataByteSize))
+      }
+    }
+    
+    blockBuffer?.release()
+//    var samples: UnsafeMutableBufferPointer<UInt16>!
+//    for buffer in audioBuffers {
+//      samples = UnsafeMutableBufferPointer<UInt16>(start: UnsafeMutablePointer(buffer.mData), count: Int(buffer.mDataByteSize)/sizeof(Int16))
+//      
+//      for sample in samples {
+//        stream.write(sample, maxLength: sample)
+//      }
+//    }
+    
+    //CMSampleBufferGetAudioBufferListWithRetainedBlockBuffer(sampleBuffer, nil, &bufferList, sizeofValue(bufferList), nil, nil, kCMSampleBufferFlag_AudioBufferList_Assure16ByteAlignment, &blockBuffer)
+  }
+  
   func dataToSong(data: NSData) -> Song? {
     if data.length > 0 {
       return NSKeyedUnarchiver.unarchiveObjectWithData(data) as? Song
     } else {
       return nil
+    }
+  }
+  
+  func getPeer(peerName: String) -> MCPeerID {
+    var peer: MCPeerID!
+    
+    for p in session.connectedPeers as! [MCPeerID] {
+      if p.displayName == peerName {
+        peer = p
+      }
+    }
+    
+    return peer
+  }
+  
+  func setSelfPlaybackPeer(peerName: String) {
+    self.playbackPeer = getPeer(peerName)
+  }
+  
+  // MARK: - NSStreamDelegate
+  
+  func stream(aStream: NSStream, handleEvent eventCode: NSStreamEvent) {
+    if aStream is NSInputStream {
+      switch eventCode {
+      case NSStreamEvent.HasBytesAvailable:
+        var streamId = UnsafeMutablePointer<AudioFileStreamID>()
+        let listenProc: @objc_block(UnsafeMutablePointer<Void>, AudioFileStreamID,
+        AudioFileStreamPropertyID, UnsafeMutablePointer<UInt32>) -> Void = { (inClientData,
+          inAudioFileStream, inPropertyID, ioFlags) in
+          
+        }
+        let packetProc: @objc_block(UnsafeMutablePointer<Void>, UInt32, UInt32, UnsafePointer<Void>,     UnsafeMutablePointer<AudioStreamPacketDescription>) -> Void = { (inClientData,
+          inNumberBytes, inNumberPackets, inInputData, inPacketDescriptions) in
+          
+          
+        }
+        
+        let impListenProc = imp_implementationWithBlock(unsafeBitCast(listenProc, AnyObject.self))
+        let impPacketProc = imp_implementationWithBlock(unsafeBitCast(packetProc, AnyObject.self))
+        let callbackListenProc = unsafeBitCast(impListenProc, AudioFileStream_PropertyListenerProc.self)
+        let callbackPacketProc = unsafeBitCast(impPacketProc, AudioFileStream_PacketsProc.self)
+        
+        
+        AudioFileStreamOpen(UnsafeMutablePointer<Void>(), callbackListenProc, callbackPacketProc, AudioFileTypeID.allZeros, streamId)
+      default:
+        break
+      }
+    }
+    
+    if aStream is NSOutputStream {
+      switch eventCode{
+      case NSStreamEvent.HasSpaceAvailable:
+        break
+      default:
+        break
+      }
     }
   }
   
