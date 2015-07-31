@@ -10,7 +10,7 @@ import UIKit
 import MultipeerConnectivity
 import CoreMedia
 
-class Multipeer: NSObject, NSStreamDelegate {
+final class Multipeer: NSObject, NSStreamDelegate {
   let serviceType = "7c24dec7ad14dca"
   
   var playbackDevice: Bool!
@@ -25,7 +25,6 @@ class Multipeer: NSObject, NSStreamDelegate {
   struct audioData {
     var fileStream = AudioFileStreamID()
     var queue = AudioQueueRef()
-//    var queueBuffer =  AudioQueueBuffer(
   }
   
   override init() {
@@ -111,16 +110,6 @@ class Multipeer: NSObject, NSStreamDelegate {
     }
     
     blockBuffer?.release()
-//    var samples: UnsafeMutableBufferPointer<UInt16>!
-//    for buffer in audioBuffers {
-//      samples = UnsafeMutableBufferPointer<UInt16>(start: UnsafeMutablePointer(buffer.mData), count: Int(buffer.mDataByteSize)/sizeof(Int16))
-//      
-//      for sample in samples {
-//        stream.write(sample, maxLength: sample)
-//      }
-//    }
-    
-    //CMSampleBufferGetAudioBufferListWithRetainedBlockBuffer(sampleBuffer, nil, &bufferList, sizeofValue(bufferList), nil, nil, kCMSampleBufferFlag_AudioBufferList_Assure16ByteAlignment, &blockBuffer)
   }
   
   func dataToSong(data: NSData) -> Song? {
@@ -131,7 +120,7 @@ class Multipeer: NSObject, NSStreamDelegate {
     }
   }
   
-  func getPeer(peerName: String) -> MCPeerID {
+  private func getPeer(peerName: String) -> MCPeerID {
     var peer: MCPeerID!
     
     for p in session.connectedPeers as! [MCPeerID] {
@@ -149,29 +138,11 @@ class Multipeer: NSObject, NSStreamDelegate {
   
   // MARK: - NSStreamDelegate
   
-  func stream(aStream: NSStream, handleEvent eventCode: NSStreamEvent) {
+  private func stream(aStream: NSStream, handleEvent eventCode: NSStreamEvent) {
     if aStream is NSInputStream {
       switch eventCode {
       case NSStreamEvent.HasBytesAvailable:
-        var streamId = UnsafeMutablePointer<AudioFileStreamID>()
-        let listenProc: @objc_block(UnsafeMutablePointer<Void>, AudioFileStreamID,
-        AudioFileStreamPropertyID, UnsafeMutablePointer<UInt32>) -> Void = { (inClientData,
-          inAudioFileStream, inPropertyID, ioFlags) in
-          
-        }
-        let packetProc: @objc_block(UnsafeMutablePointer<Void>, UInt32, UInt32, UnsafePointer<Void>,     UnsafeMutablePointer<AudioStreamPacketDescription>) -> Void = { (inClientData,
-          inNumberBytes, inNumberPackets, inInputData, inPacketDescriptions) in
-          
-          
-        }
-        
-        let impListenProc = imp_implementationWithBlock(unsafeBitCast(listenProc, AnyObject.self))
-        let impPacketProc = imp_implementationWithBlock(unsafeBitCast(packetProc, AnyObject.self))
-        let callbackListenProc = unsafeBitCast(impListenProc, AudioFileStream_PropertyListenerProc.self)
-        let callbackPacketProc = unsafeBitCast(impPacketProc, AudioFileStream_PacketsProc.self)
-        
-        
-        AudioFileStreamOpen(UnsafeMutablePointer<Void>(), callbackListenProc, callbackPacketProc, AudioFileTypeID.allZeros, streamId)
+        break
       default:
         break
       }

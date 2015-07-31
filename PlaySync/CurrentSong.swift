@@ -8,7 +8,7 @@
 
 import UIKit
 
-class CurrentSong: UIView {
+final class CurrentSong: UIView {
   
   @IBOutlet weak var albumImg: UIImageView!
   @IBOutlet weak var songLbl: UILabel!
@@ -47,7 +47,7 @@ class CurrentSong: UIView {
     }
   }
   
-  func handleControlBtnTapped(sender: UITapGestureRecognizer) {
+  private func handleControlBtnTapped(sender: UITapGestureRecognizer) {
     if let del = delegate as? MusicQueueViewController {
       if isPlaying == true {
         del.player.pause()
@@ -59,7 +59,7 @@ class CurrentSong: UIView {
     }
   }
   
-  func handleViewTapped(sender: UITapGestureRecognizer) {
+  private func handleViewTapped(sender: UITapGestureRecognizer) {
     if let del = delegate as? MusicQueueViewController {
       del.performSegueWithIdentifier("toCurrentPlayingVC", sender: del)
     }

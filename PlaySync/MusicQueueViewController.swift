@@ -14,7 +14,7 @@ import AudioToolbox
 
 let songCellId = "songCell"
 
-class MusicQueueViewController: UIViewController, MCBrowserViewControllerDelegate, MCSessionDelegate, MPMediaPickerControllerDelegate, UITableViewDataSource, UITableViewDelegate {
+final class MusicQueueViewController: UIViewController, MCBrowserViewControllerDelegate, MCSessionDelegate, MPMediaPickerControllerDelegate, UITableViewDataSource, UITableViewDelegate {
   
   @IBOutlet weak var tableView: UITableView!
   @IBOutlet weak var currentlyPlaying: CurrentSong!
@@ -64,9 +64,9 @@ class MusicQueueViewController: UIViewController, MCBrowserViewControllerDelegat
     // Dispose of any resources that can be recreated.
   }
   
-  // MARK: - class methods
+  // MARK: - instance methods
   
-  func updateCurrentlyPlaying() {
+  private func updateCurrentlyPlaying() {
     if let song = currentSong {
       currentlyPlaying.albumImg.layer.backgroundColor = UIColor.blackColor().CGColor
       currentlyPlaying.albumImg.image = song.artwork
@@ -94,7 +94,7 @@ class MusicQueueViewController: UIViewController, MCBrowserViewControllerDelegat
     }
   }
   
-  func handleNowPlayingItemChanged(notification: NSNotification) {
+  private func handleNowPlayingItemChanged(notification: NSNotification) {
     if let nowPlaying = player.playerController?.nowPlayingItem {
       currentSong = Song.returnSongObject(song: nowPlaying)
       updateCurrentlyPlaying()
@@ -102,11 +102,11 @@ class MusicQueueViewController: UIViewController, MCBrowserViewControllerDelegat
     }
   }
   
-  func handlePlaybackStateChange(notification: NSNotification) {
+  private func handlePlaybackStateChange(notification: NSNotification) {
     handleControlButton()
   }
   
-  func handleControlButton() {
+  private func handleControlButton() {
     if player.playBackState() == .Stopped || player.playBackState() == .Paused {
       currentlyPlaying.setControlBtnIcon(true)
       multi.writeMessage(Controls.isToBePaused())
@@ -185,6 +185,12 @@ class MusicQueueViewController: UIViewController, MCBrowserViewControllerDelegat
       
       if let song = currentSong {
         multi.writeMessage(Controls.isCurrentSong(song.selfToString() ?? ""))
+        
+        if player.playBackState() == .Stopped || player.playBackState() == .Paused {
+          multi.writeMessage(Controls.isToBePaused())
+        } else {
+          multi.writeMessage(Controls.isToBePlayed())
+        }
       }
     }
   }
@@ -279,24 +285,22 @@ class MusicQueueViewController: UIViewController, MCBrowserViewControllerDelegat
   
   // MARK: - MPMediaPickerControllerDelegate
   
+  // When the cancel button is pressed
   func mediaPickerDidCancel(mediaPicker: MPMediaPickerController!) {
     
     dismissViewControllerAnimated(true, completion: nil)
   }
   
+  // When music was selected and "Done" was tapped
   func mediaPicker(mediaPicker: MPMediaPickerController!, didPickMediaItems mediaItemCollection: MPMediaItemCollection!) {
-    //    var asset: AVURLAsset!
-    //    var assestReader: AVAssetReader!
-    //    var err: NSError?
     var songObj: Song!
+    var songBytesU = 0
+    var songBytesC = 0
     
     for s in (mediaItemCollection.items as! [MPMediaItem]) {
       songObj = Song.returnSongObject(song: s)
       songs.append(songObj)
       multi.writeData(songObj.selfToNSData())
-      
-      //      asset = AVURLAsset(URL: songObj.url, options: nil)
-      //      assestReader = AVAssetReader(asset: asset, error: &err)
     }
     tableView.reloadData()
     

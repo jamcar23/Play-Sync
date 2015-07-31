@@ -8,7 +8,7 @@
 
 import UIKit
 
-class NowPlaying: UIView {
+final class NowPlaying: UIView {
   
   @IBOutlet weak var albumImg: UIImageView!
   @IBOutlet weak var songLbl: UILabel!
@@ -29,7 +29,7 @@ class NowPlaying: UIView {
     self.addGestureRecognizer(UITapGestureRecognizer(target: self, action: "handleViewTapped:"))
   }
   
-  func handleViewTapped(sender: UITapGestureRecognizer) {
+  private func handleViewTapped(sender: UITapGestureRecognizer) {
     if let del = delegate.delegate as? MusicQueueViewController {
       del.currentPlayingVC = nil 
     }

@@ -8,7 +8,7 @@
 
 import Foundation
 
-class Controls {
+final class Controls {
   static let playbackDevice = "isPlaybackDevice"
   static let currentSong = "isCurrentSong"
   static let paused = "isToBePaused"

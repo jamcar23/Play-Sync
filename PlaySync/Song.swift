@@ -12,7 +12,7 @@ import AVFoundation
 
 let deviceName = UIDevice.currentDevice().name
 
-class Song: NSObject, NSCoding {
+final class Song: NSObject, NSCoding {
   let artist: String!
   let album: String!
   let title: String!
@@ -117,11 +117,7 @@ class Song: NSObject, NSCoding {
     var sec = Int(round(t - (min * 60)))
     var secString: String!
     
-    if sec >= 10 {
-      secString = sec.description
-    } else {
-      secString = "0\(sec)"
-    }
+    secString = sec >= 10 ? sec.description : "0\(sec)"
     
     return "\(Int(min)):\(secString)"
   }

@@ -8,7 +8,7 @@
 
 import UIKit
 
-class ControlNowPlaying: UIView {
+final class ControlNowPlaying: UIView {
   
   @IBOutlet weak var skipPrevious: UIImageView!
   @IBOutlet weak var playPause: UIImageView!
@@ -31,7 +31,7 @@ class ControlNowPlaying: UIView {
     self.skipForward.addGestureRecognizer(UITapGestureRecognizer(target: self, action: "handleForwardTap:"))
   }
   
-  func handlePreviousTap(sender: UITapGestureRecognizer) {
+  private func handlePreviousTap(sender: UITapGestureRecognizer) {
     if let del = delegate.delegate as? MusicQueueViewController {
       if del.playbackDevice == true {
         del.player.toPreviousItem()
@@ -41,7 +41,7 @@ class ControlNowPlaying: UIView {
     }
   }
   
-  func handlePlayPauseTap(sender: UITapGestureRecognizer) {
+  private  func handlePlayPauseTap(sender: UITapGestureRecognizer) {
     if let del = delegate.delegate as? MusicQueueViewController {
       if isPlaying == true {
         del.player.pause()
@@ -55,7 +55,7 @@ class ControlNowPlaying: UIView {
     }
   }
   
-  func handleForwardTap(sender: UITapGestureRecognizer) {
+  private  func handleForwardTap(sender: UITapGestureRecognizer) {
     if let del = delegate.delegate as? MusicQueueViewController {
       if del.playbackDevice == true {
         del.player.toNextItem()

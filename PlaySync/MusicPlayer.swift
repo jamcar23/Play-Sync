@@ -9,7 +9,7 @@
 import UIKit
 import MediaPlayer
 
-class MusicPlayer {
+final class MusicPlayer {
   let playerController: MPMusicPlayerController?
   var delegate: UIViewController?
   

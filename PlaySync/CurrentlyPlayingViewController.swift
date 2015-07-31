@@ -8,7 +8,7 @@
 
 import UIKit
 
-class CurrentlyPlayingViewController: UIViewController {
+final class CurrentlyPlayingViewController: UIViewController {
   
   @IBOutlet weak var nowPlaying: NowPlaying!
   @IBOutlet weak var albumImg: UIImageView!
